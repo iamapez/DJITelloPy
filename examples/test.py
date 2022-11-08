@@ -1,7 +1,8 @@
 import time
-
+import cv2
 import robomaster.config
 from robomaster import robot
+from robomaster import camera
 
 # robomaster.config.LOCAL_IP_STR = "192.168.2.20"
 
@@ -14,7 +15,8 @@ if __name__ == '__main__':
     tl_drone.initialize()  # Initialize the robot object. Currently, no input parameters are required for the initialization of education-series drones.
 
     tl_flight = tl_drone.flight  # Use the get_module() method of the Drone object to obtain the specified object.
-    tl_led = tl_drone.led
+    tl_led = tl_drone.led   # control the led on the top of the robot if it is attached
+    ep_camera = tl_drone.camera
 
     drone_battery_threshold = 20
     travel_height = 37
@@ -23,6 +25,10 @@ if __name__ == '__main__':
     # get the sdk version running on the drone
     drone_version = tl_drone.get_sdk_version()
     print("Drone sdk version: {0}".format(drone_version))
+
+    # get the port in use
+    drone_port = tl_drone.local_port
+    print('Drone port: {0}'.format(drone_port))
 
     # get battery
     tl_battery = tl_drone.battery
@@ -37,7 +43,6 @@ if __name__ == '__main__':
 
     """ *** FLIGHT STARTS HERE *** """
     user_instruction = 0
-
     while user_instruction != 3:
         print('=== Flight Controls Menu ===')
         print("""
@@ -48,6 +53,8 @@ if __name__ == '__main__':
 
         tl_led.set_led(0, g=0, b=0)
         tl_flight.takeoff().wait_for_completed()
+        ep_camera.start_video_stream(display=True)
+
         user_instruction = int(input('Enter the drone instruction number:'))
 
         if user_instruction == 1:
@@ -83,6 +90,8 @@ if __name__ == '__main__':
     # tl_flight.forward(distance=25).wait_for_completed()
     tl_led.set_led(r=255, g=0, b=0)
 
+
     """ *** READY TO LAND *** """
     tl_flight.land().wait_for_completed()
+    ep_camera.stop_video_stream()
     tl_drone.close()  # release the robot resources
