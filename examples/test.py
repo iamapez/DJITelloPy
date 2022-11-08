@@ -7,11 +7,13 @@ from robomaster import robot
 
 if __name__ == '__main__':
 
-    """ *** POPULATE OBJECTS HERE *** """
-    tl_drone = robot.Drone()    # instance of the Drone class
-    tl_drone.initialize()       # Initialize the robot object. Currently, no input parameters are required for the initialization of education-series drones.
+    # https://dl.djicdn.com/downloads/RoboMaster+TT/Tello_SDK_3.0_User_Guide_en.pdf
 
-    tl_flight = tl_drone.flight   # Use the get_module() method of the Drone object to obtain the specified object.
+    """ *** POPULATE OBJECTS HERE *** """
+    tl_drone = robot.Drone()  # instance of the Drone class
+    tl_drone.initialize()  # Initialize the robot object. Currently, no input parameters are required for the initialization of education-series drones.
+
+    tl_flight = tl_drone.flight  # Use the get_module() method of the Drone object to obtain the specified object.
     tl_led = tl_drone.led
 
     drone_battery_threshold = 20
@@ -34,31 +36,47 @@ if __name__ == '__main__':
     print("drone sn: {0}".format(SN))
 
     """ *** FLIGHT STARTS HERE *** """
-    tl_led.set_led(0, g=0, b=0)
-    tl_flight.takeoff().wait_for_completed()
+    user_instruction = 0
 
-    # def hover():
-    #     time.sleep(5)
-    #     counter = 0
-    #     start_time = time.time()
-    #     print('Entering while loop')
-    #     while 1:
-    #         baro = tl_drone.get_baro()
-    #         if baro < travel_height:
-    #             diff = travel_height - baro
-    #             tl_flight.up(distance=diff).wait_for_completed()
-    #             time.sleep(2)
-    #             diff = baro - travel_height
-    #             tl_flight.down(distance=diff).wait_for_completed()
-    #             time.sleep(2)
-    #         else:
-    #             time.sleep(2)
-    #
-    #         if counter == 15:
-    #             print("--- %s seconds ---" % (time.time() - start_time))
-    #             break
-    #
-    #         counter += 1
+    while user_instruction != 3:
+        print('=== Flight Controls Menu ===')
+        print("""
+            1.) Hover 
+            2.) Pre-determined map
+            3.) Exit
+        """)
+
+        tl_led.set_led(0, g=0, b=0)
+        tl_flight.takeoff().wait_for_completed()
+        user_instruction = int(input('Enter the drone instruction number:'))
+
+        if user_instruction == 1:
+            time.sleep(5)
+            counter = 0
+            start_time = time.time()
+            print('Entering while loop')
+            while 1:
+                baro = tl_drone.get_baro()
+                if baro < travel_height:
+                    diff = travel_height - baro
+                    tl_flight.up(distance=diff).wait_for_completed()
+                    time.sleep(2)
+                    diff = baro - travel_height
+                    tl_flight.down(distance=diff).wait_for_completed()
+                    time.sleep(2)
+                else:
+                    time.sleep(2)
+
+                if counter == 15:
+                    print("--- %s seconds ---" % (time.time() - start_time))
+                    break
+
+                counter += 1
+        elif user_instruction == 2:
+            print('execute pre-determined path')
+        else:
+            print('breaking!')
+            break
 
     print('FINAL baro:', tl_drone.get_baro())
 
@@ -67,4 +85,4 @@ if __name__ == '__main__':
 
     """ *** READY TO LAND *** """
     tl_flight.land().wait_for_completed()
-    tl_drone.close()    # release the robot resources
+    tl_drone.close()  # release the robot resources
