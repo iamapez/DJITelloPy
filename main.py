@@ -6,7 +6,7 @@ import cv2
 tello = Tello()
 
 tello.connect()
-# thread to call emergency
+
 
 tello.takeoff()
 tello.land()
