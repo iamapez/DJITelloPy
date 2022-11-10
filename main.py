@@ -1,13 +1,13 @@
 import sys
 import time
-from djitellopy import Tello
 import cv2
 import logging
 import constants
+from DJITelloPy import djitellopy
 
 
 def main():
-    tello = Tello()
+    tello = djitellopy.Tello()
 
     tello.LOGGER.info(constants.MESSAGES.try_connect_drone)
     try:
@@ -17,6 +17,10 @@ def main():
         sys.exit('*** Exiting program. Count not connect to the drone.***')
 
     tello.LOGGER.info(constants.MESSAGES.successful_connect_drone)
+
+    tello.turn_motor_on()
+    time.sleep(5)
+    tello.turn_motor_off()
 
 
 if __name__ == '__main__':
