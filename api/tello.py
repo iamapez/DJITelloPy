@@ -63,7 +63,7 @@ class Tello:
 
     # Set up logger
     HANDLER = logging.StreamHandler()
-    FORMATTER = logging.Formatter('[%(levelname)s] %(filename)s - %(lineno)d - %(message)s')
+    FORMATTER = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s')
     HANDLER.setFormatter(FORMATTER)
 
     LOGGER = logging.getLogger('api')
@@ -71,6 +71,13 @@ class Tello:
     LOGGER.setLevel(logging.INFO)
     # Use Tello.LOGGER.setLevel(logging.<LEVEL>) in YOUR CODE
     # to only receive logs of the desired level and higher
+
+    timestr = time.strftime("%Y%m%d-%H%M%S")
+    file_handler = logging.FileHandler('logs/{}.log'.format(timestr))
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(FORMATTER)
+
+    LOGGER.addHandler(file_handler)
 
     # Conversion functions for state protocol fields
     INT_STATE_FIELDS = (
