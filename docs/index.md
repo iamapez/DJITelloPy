@@ -18,11 +18,11 @@ Please see the [example directory](https://github.com/damiafuentes/DJITelloPy/tr
 ## Installation
 
 ```bash
-pip install djitellopy
+pip install api
 ```
 
 For Linux distributions with both python2 and python3 (e.g. Debian, Ubuntu, ...) you need to run
 
 ```bash
-pip3 install djitellopy
+pip3 install api
 ```

@@ -8,15 +8,15 @@ repo_code_url = "https://github.com/damiafuentes/DJITelloPy/tree/master"
 long_description = long_description.replace("](examples/", "]({}/examples/".format(repo_code_url))
 
 setuptools.setup(
-    name='djitellopy',
-    packages=['djitellopy'],
+    name='api',
+    packages=['api'],
     version='2.4.0',
     license='MIT',
     description='Tello drone library including support for video streaming, swarms, state packets and more',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Jakob Löw',
-    author_email='djitellopy@m4gnus.de',
+    author_email='api@m4gnus.de',
     url='https://github.com/damiafuentes/DJITelloPy',
     download_url='https://github.com/damiafuentes/DJITelloPy/archive/2.4.0.tar.gz',
     keywords=['tello', 'dji', 'drone', 'sdk', 'official sdk'],
