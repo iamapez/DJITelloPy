@@ -951,13 +951,13 @@ class Tello:
         response = self.send_read_command('attitude?')
         return Tello.parse_state(response)
 
-    def query_barometer(self) -> int:
+    def query_barometer(self) -> float:
         """Get barometer value (cm)
         Using get_barometer is usually faster.
         Returns:
-            int: 0-100
+            float: 0-100
         """
-        baro = self.send_read_command_int('baro?')
+        baro = self.send_read_command_float('baro?')
         return baro * 100
 
     def query_distance_tof(self) -> float:
