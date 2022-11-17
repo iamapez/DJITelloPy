@@ -63,14 +63,21 @@ class Tello:
 
     # Set up logger
     HANDLER = logging.StreamHandler()
-    FORMATTER = logging.Formatter('[%(levelname)s] %(filename)s - %(lineno)d - %(message)s')
+    FORMATTER = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s')
     HANDLER.setFormatter(FORMATTER)
 
-    LOGGER = logging.getLogger('djitellopy')
+    LOGGER = logging.getLogger('api')
     LOGGER.addHandler(HANDLER)
     LOGGER.setLevel(logging.INFO)
     # Use Tello.LOGGER.setLevel(logging.<LEVEL>) in YOUR CODE
     # to only receive logs of the desired level and higher
+
+    timestr = time.strftime("%Y%m%d-%H%M%S")
+    file_handler = logging.FileHandler('logs/{}.log'.format(timestr))
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(FORMATTER)
+
+    LOGGER.addHandler(file_handler)
 
     # Conversion functions for state protocol fields
     INT_STATE_FIELDS = (
@@ -110,6 +117,7 @@ class Tello:
         if not threads_initialized:
             # Run Tello command responses UDP receiver on background
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            client_socket.bind(('', Tello.CONTROL_UDP_PORT))
             response_receiver_thread = Thread(target=Tello.udp_response_receiver)
             response_receiver_thread.daemon = True
             response_receiver_thread.start()
@@ -943,13 +951,13 @@ class Tello:
         response = self.send_read_command('attitude?')
         return Tello.parse_state(response)
 
-    def query_barometer(self) -> int:
+    def query_barometer(self) -> float:
         """Get barometer value (cm)
         Using get_barometer is usually faster.
         Returns:
-            int: 0-100
+            float: 0-100
         """
-        baro = self.send_read_command_int('baro?')
+        baro = self.send_read_command_float('baro?')
         return baro * 100
 
     def query_distance_tof(self) -> float:

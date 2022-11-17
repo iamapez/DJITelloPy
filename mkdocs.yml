@@ -1,5 +1,5 @@
 site_name: DJITelloPy API Reference
-site_url: "https://djitellopy.readthedocs.io/en/latest/"
+site_url: "https://api.readthedocs.io/en/latest/"
 repo_url: "https://github.com/damiafuentes/DJITelloPy"
 repo_name: "damiafuentes/DJITelloPy"
 
@@ -19,4 +19,4 @@ plugins:
           rendering:
             show_source: true
       watch:
-        - djitellopy/
+        - api/

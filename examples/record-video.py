@@ -5,6 +5,8 @@ from djitellopy import Tello
 tello = Tello()
 
 tello.connect()
+tello.set_video_direction(Tello.CAMERA_DOWNWARD)
+
 
 keepRecording = True
 tello.streamon()
