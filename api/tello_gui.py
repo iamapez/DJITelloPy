@@ -1,9 +1,8 @@
-from .tello import Tello, TelloException, BackgroundFrameRead
-from .swarm import TelloSwarm
 import time
 from threading import Thread
 from typing import Optional, Union, Type, Dict
 import tkinter as tk
+from .tello import Tello
 
 class GUI:
 

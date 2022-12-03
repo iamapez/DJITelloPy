@@ -7,7 +7,7 @@ import socket
 import time
 from threading import Thread
 from typing import Optional, Union, Type, Dict
-
+import tkinter as tk
 from .enforce_types import enforce_types
 
 import av
@@ -113,6 +113,32 @@ class Tello:
         self.retry_count = retry_count
         self.last_received_command_timestamp = time.time()
         self.last_rc_control_timestamp = time.time()
+
+        self.window = tk.Tk()
+        self.window.title("Controller")
+        self.window.geometry("1000x500")
+
+        # Keys: Up, Down, Left, Right, KillSwitch, Takeoff
+        self.upButton = tk.Button(self.window, text="↑", command=self.move_up)
+        self.upButton.grid(row=3, column=2)
+
+        self.downButton = tk.Button(self.window, text="↓", command=self.move_down)
+        self.downButton.grid(row=4, column=2)
+
+        self.leftButton = tk.Button(self.window, text="←", command=self.move_left)
+        self.leftButton.grid(row=4, column=1)
+
+        self.rightButton = tk.Button(self.window, text="→", command=self.move_right)
+        self.rightButton.grid(row=4, column=3)
+
+        self.takeOffButton = tk.Button(self.window, text="TAKEOFF", command=self.takeoff)
+        self.takeOffButton.grid(row=1, column=1)
+
+        self.landButton = tk.Button(self.window, text="LAND", command=self.land)
+        self.landButton.grid(row=1, column=6)
+
+        self.killButton = tk.Button(self.window, text="KILL", command=self.emergency)
+        self.killButton.grid(row=6, column=6)
 
         if not threads_initialized:
             # Run Tello command responses UDP receiver on background
@@ -617,6 +643,7 @@ class Tello:
         Arguments:
             x: 20-500
         """
+        x = 20 # Default value
         self.move("up", x)
 
     def move_down(self, x: int):
@@ -624,6 +651,7 @@ class Tello:
         Arguments:
             x: 20-500
         """
+        x = 20  # Default value
         self.move("down", x)
 
     def move_left(self, x: int):
@@ -631,6 +659,7 @@ class Tello:
         Arguments:
             x: 20-500
         """
+        x = 20  # Default value
         self.move("left", x)
 
     def move_right(self, x: int):
@@ -638,6 +667,7 @@ class Tello:
         Arguments:
             x: 20-500
         """
+        x = 20  # Default value
         self.move("right", x)
 
     def move_forward(self, x: int):
@@ -645,6 +675,7 @@ class Tello:
         Arguments:
             x: 20-500
         """
+        x = 20  # Default value
         self.move("forward", x)
 
     def move_back(self, x: int):
@@ -652,6 +683,7 @@ class Tello:
         Arguments:
             x: 20-500
         """
+        x = 20  # Default value
         self.move("back", x)
 
     def rotate_clockwise(self, x: int):
@@ -659,6 +691,7 @@ class Tello:
         Arguments:
             x: 1-360
         """
+        x = 20  # Default value
         self.send_control_command("cw {}".format(x))
 
     def rotate_counter_clockwise(self, x: int):
@@ -666,6 +699,7 @@ class Tello:
         Arguments:
             x: 1-3600
         """
+        x = 20  # Default value
         self.send_control_command("ccw {}".format(x))
 
     def flip(self, direction: str):
