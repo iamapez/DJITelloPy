@@ -2,6 +2,7 @@
 """
 
 # coding=utf-8
+import os
 import logging
 import socket
 import time
@@ -10,7 +11,7 @@ from typing import Optional, Union, Type, Dict
 
 from .enforce_types import enforce_types
 
-import av
+# import av
 import numpy as np
 
 
@@ -66,18 +67,30 @@ class Tello:
     FORMATTER = logging.Formatter('%(asctime)s | %(levelname)s | %(message)s')
     HANDLER.setFormatter(FORMATTER)
 
+
     LOGGER = logging.getLogger('api')
     LOGGER.addHandler(HANDLER)
     LOGGER.setLevel(logging.INFO)
     # Use Tello.LOGGER.setLevel(logging.<LEVEL>) in YOUR CODE
     # to only receive logs of the desired level and higher
 
+    DATA_LOGGER = logging.getLogger('api1')
+    DATA_LOGGER.addHandler(HANDLER)
+    DATA_LOGGER.setLevel(logging.INFO)
+
+
     timestr = time.strftime("%Y%m%d-%H%M%S")
+    os.chdir('../')
     file_handler = logging.FileHandler('logs/{}.log'.format(timestr))
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(FORMATTER)
 
+    file_handler2 = logging.FileHandler('flight_data_logs/{}.log'.format(timestr))
+    file_handler2.setLevel(logging.DEBUG)
+    file_handler2.setFormatter(FORMATTER)
+
     LOGGER.addHandler(file_handler)
+    DATA_LOGGER.addHandler(file_handler)
 
     # Conversion functions for state protocol fields
     INT_STATE_FIELDS = (
@@ -126,6 +139,7 @@ class Tello:
             state_receiver_thread = Thread(target=Tello.udp_state_receiver)
             state_receiver_thread.daemon = True
             state_receiver_thread.start()
+
 
             threads_initialized = True
 
