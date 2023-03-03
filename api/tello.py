@@ -80,7 +80,7 @@ class Tello:
 
 
     timestr = time.strftime("%Y%m%d-%H%M%S")
-    os.chdir('../')
+    # os.chdir('../')
     file_handler = logging.FileHandler('logs/{}.log'.format(timestr))
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(FORMATTER)
