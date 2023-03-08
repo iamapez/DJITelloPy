@@ -12,7 +12,7 @@ from typing import Optional, Union, Type, Dict
 from .enforce_types import enforce_types
 
 # import av
-import numpy as np
+# import numpy as np
 
 
 threads_initialized = False
