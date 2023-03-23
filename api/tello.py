@@ -44,7 +44,7 @@ class Tello:
     VS_UDP_IP = '0.0.0.0'
     VS_UDP_PORT = 11111
 
-    CONTROL_UDP_PORT = 8889
+    CONTROL_UDP_PORT = 6969
     STATE_UDP_PORT = 8890
 
     # Constants for video settings
@@ -84,10 +84,6 @@ class Tello:
     file_handler = logging.FileHandler('logs/{}.log'.format(timestr))
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(FORMATTER)
-
-    file_handler2 = logging.FileHandler('flight_data_logs/{}.log'.format(timestr))
-    file_handler2.setLevel(logging.DEBUG)
-    file_handler2.setFormatter(FORMATTER)
 
     LOGGER.addHandler(file_handler)
     DATA_LOGGER.addHandler(file_handler)
@@ -129,8 +125,12 @@ class Tello:
 
         if not threads_initialized:
             # Run Tello command responses UDP receiver on background
+
             client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
             client_socket.bind(('', Tello.CONTROL_UDP_PORT))
+
             response_receiver_thread = Thread(target=Tello.udp_response_receiver)
             response_receiver_thread.daemon = True
             response_receiver_thread.start()
