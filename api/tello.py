@@ -44,7 +44,7 @@ class Tello:
     VS_UDP_IP = '0.0.0.0'
     VS_UDP_PORT = 11111
 
-    CONTROL_UDP_PORT = 6969
+    CONTROL_UDP_PORT = 8889
     STATE_UDP_PORT = 8890
 
     # Constants for video settings
