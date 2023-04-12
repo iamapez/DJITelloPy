@@ -79,14 +79,14 @@ class Tello:
     DATA_LOGGER.setLevel(logging.INFO)
 
 
-    timestr = time.strftime("%Y%m%d-%H%M%S")
-    # os.chdir('../')
-    file_handler = logging.FileHandler('logs/{}.log'.format(timestr))
-    file_handler.setLevel(logging.DEBUG)
-    file_handler.setFormatter(FORMATTER)
-
-    LOGGER.addHandler(file_handler)
-    DATA_LOGGER.addHandler(file_handler)
+    # timestr = time.strftime("%Y%m%d-%H%M%S")
+    # # os.chdir('../')
+    # file_handler = logging.FileHandler('logs/{}.log'.format(timestr))
+    # file_handler.setLevel(logging.DEBUG)
+    # file_handler.setFormatter(FORMATTER)
+    #
+    # LOGGER.addHandler(file_handler)
+    # DATA_LOGGER.addHandler(file_handler)
 
     # Conversion functions for state protocol fields
     INT_STATE_FIELDS = (
